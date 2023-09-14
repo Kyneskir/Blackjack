@@ -7,6 +7,8 @@ public class Blackjack {
 
     public static final int MINIMUM_BET = 20;
     public static final int TABLE_MAX = 20000;
+
+    //change
     // rules
 // deck 13 x 4
 // ace is 1 or 11
