@@ -1,0 +1,13 @@
+We want to:
+    Read the equation from a file
+    Print the answer to a file
+    Perform addition, subtraction, multiplication, division--
+        On two numbers
+        On a sequence of numbers
+    Be able to use the previous answer in subsequent equations
+
+    For now, we will process the equation from left to right
+        Order of Operations will come later
+
+    We're going to expect equations to be written using the following symbols:
+        +  -  /  *
