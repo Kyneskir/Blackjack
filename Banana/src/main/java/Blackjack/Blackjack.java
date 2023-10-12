@@ -102,7 +102,7 @@ public class Blackjack {
                     for (Player player : gameParticipants) {
                         if (!GameActions.checkIfPlayerCanContinue(player, MINIMUM_BET)) {
                             System.out.println(player.name + " doesnt have enough money to continue. It's time to take out a loan. ");
-                            int reBuyInAmount = PlayerInputs.getPlayerReBuyIn(player, MINIMUM_BET);
+                            int reBuyInAmount = PlayerInputs.getPlayerReBuyIn(player);
                             if (reBuyInAmount < MINIMUM_BET) {
                                 gameParticipants.remove(player);
                             } else if (reBuyInAmount > TABLE_MAX) {
