@@ -3,6 +3,7 @@ package Blackjack;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ConcurrentModificationException;
 
 public class PlayerInputs {
 
@@ -11,6 +12,7 @@ public class PlayerInputs {
         System.out.println(bettingPlayer.name + " should input a number for a bet now. Don't go broke. ");
         int desiredBet = ensureInputIsNumber(getInputFromTerminal());
         while (checkAgainstMinimumBet(desiredBet) || checkAgainstPlayerFunds(desiredBet, bettingPlayer)) {
+            System.out.println("Hey dumbass. It should be a number. If you fuck this up");
             desiredBet = ensureInputIsNumber(getInputFromTerminal());
             //TODO make it so you cant keep going
         }
@@ -45,14 +47,15 @@ public class PlayerInputs {
 
     }
 
-    private static int ensureInputIsNumber(String inputFromTerminal) {
+    protected static int ensureInputIsNumber(String inputFromTerminal) {
         try {
             return Integer.parseInt(inputFromTerminal);
         } catch (NumberFormatException e) {
-            System.out.println("Hey dumbass. It should be a number. If you fuck this up");
             try {
-                return Integer.parseInt(inputFromTerminal);
-            }catch (NumberFormatException e2) {
+                System.out.println("Not a number");
+                return Integer.parseInt(getInputFromTerminal());
+            }catch (NumberFormatException ee) {
+                System.out.println("Not a number");
                 return 0;
             }
         }
@@ -99,34 +102,23 @@ public class PlayerInputs {
 
     }
 
-    public static int getPlayerReBuyIn(Player player, int minimumBet) {
+    public static int getPlayerReBuyIn(Player player) {
         System.out.println("How much would you like to add to your wallet? Leave blank to quit.");
                 while (true) {
-                    String playerInput = getInputFromTerminal();
-                    try {
-                        Integer.parseInt(playerInput);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Too big bitch. Try again? The table wont accept more than" + Blackjack.TABLE_MAX + " anyway.");
-                        continue;
+                    int playerInput = ensureInputIsNumber(getInputFromTerminal());
+                    if (playerInput == 0) {
+                        return playerInput;
                     }
-                    if (playerInput.equals("")) {
-                        return 0;
-                    }
-                    try {
-                        int reBuyInAmount = Integer.parseInt(playerInput);
-                        if (reBuyInAmount + player.getFunds() > minimumBet) {
+                        if (playerInput + player.getFunds() > Blackjack.MINIMUM_BET) {
                             System.out.println("making good choices are we?");
-                            return reBuyInAmount;
+                            return playerInput;
                         }else {
                             System.out.println("You need to have more than the min bet");
                         }
 
-                    }catch (NumberFormatException e) {
-                        System.out.println("that wasnt a number");
-                                return 0;
                     }
                 }
     }
 
 
-}
+

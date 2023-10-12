@@ -82,7 +82,7 @@ public class Deck {
                 }
             }
     }
-    public class Card {
+    public static class Card {
         int cardValue;
         Suit suit;
         Face face;
