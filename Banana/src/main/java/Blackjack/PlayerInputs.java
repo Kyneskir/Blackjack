@@ -10,14 +10,19 @@ public class PlayerInputs {
     public static int takePlayerBet(Player bettingPlayer) {
 
         System.out.println(bettingPlayer.name + " should input a number for a bet now. Don't go broke. ");
-        int desiredBet = ensureInputIsNumber(getInputFromTerminal());
-        while (checkAgainstMinimumBet(desiredBet) || checkAgainstPlayerFunds(desiredBet, bettingPlayer)) {
-            System.out.println("Hey dumbass. It should be a number. If you fuck this up");
-            desiredBet = ensureInputIsNumber(getInputFromTerminal());
-            //TODO make it so you cant keep going
+        int desiredBet = ensureInputIsNumber(getInputFromTerminal()); // is desired bet a number?
+        int attempts = 0;
+        while (checkAgainstMinimumBet(desiredBet) || checkAgainstPlayerFunds(desiredBet, bettingPlayer)) { // is desired bet higher than min bet and does the player have the funds?
+            if (attempts > 2) {
+                System.out.println("Hey dumbass. It should be a number. If you fuck this up");
+                return bettingPlayer.getFunds();
+            }
+            desiredBet = ensureInputIsNumber(getInputFromTerminal()); // ask again cuz input is not correct.
+            attempts++;
         }
+
         System.out.println(bettingPlayer.name + " has chosen to bet: " + desiredBet);
-        return desiredBet;
+        return desiredBet; // return what they asked for because it passes both stipulations.
 
     }
     private static boolean checkAgainstMinimumBet(int desiredBet) {
@@ -103,7 +108,7 @@ public class PlayerInputs {
     }
 
     public static int getPlayerReBuyIn(Player player) {
-        System.out.println("How much would you like to add to your wallet? Leave blank to quit.");
+        System.out.println("How much would you like to add to your wallet? Enter 0 to quit.");
                 while (true) {
                     int playerInput = ensureInputIsNumber(getInputFromTerminal());
                     if (playerInput == 0) {
@@ -113,11 +118,17 @@ public class PlayerInputs {
                             System.out.println("making good choices are we?");
                             return playerInput;
                         }else {
+                            getPlayerReBuyInElseLoopOccurred = true;
                             System.out.println("You need to have more than the min bet");
                         }
 
                     }
                 }
+
+                static boolean getPlayerReBuyInElseLoopOccurred = false;
+    protected static boolean didGetPlayerReBuyInElseLoopOccur() {
+        return getPlayerReBuyInElseLoopOccurred;
+    }
     }
 
 
